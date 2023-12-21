@@ -8,7 +8,7 @@ import { Permissions, User } from "./entity/User"
 
 AppDataSource.initialize().then(async () => {
     await AppDataSource.manager.find(User).then(async(users)=>{
-        if(users && users.length != 0) return;
+        if(users && (users.filter(x=>x.username == 'admin').length > 0)) return;
         // En caso de que no exista ningun usuario en la base de datos creo el usuario admin
         const salt = await bcrypt.genSalt(10);
         const hash = await bcrypt.hash(process.env.DEFAULT_PASSWORD || "admin", salt).catch(error => console.log(error));
@@ -22,9 +22,7 @@ AppDataSource.initialize().then(async () => {
         await AppDataSource.manager.save(user);
 
     }).then(()=>{
-
         const PORT: number = parseInt(process.env.PORT || '3000', 10);
-        
         app.listen(PORT, () => {
             console.log(`Server is running in ${PORT}`);
         });

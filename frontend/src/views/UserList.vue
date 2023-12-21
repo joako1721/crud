@@ -11,14 +11,14 @@
     alternating>
 
     <template #item-options="item">
-        <span v-if="item.viewButton" @click="formUser(item.id)" style="padding-right: 10px;">
+        <span class="user-list__table__btn" v-if="item.viewButton" @click="formUser(item.id)" style="padding-right: 10px;">
             <font-awesome-icon :icon="['fas', 'eye']" /> 
         </span>
-        <span v-if="item.editButton" @click="formUser(item.id)" style="padding-right: 10px;">
+        <span class="user-list__table__btn" v-if="item.editButton" @click="formUser(item.id)" style="padding-right: 10px;">
             <font-awesome-icon :icon="['fas', 'pen-to-square']" />
         </span>
 
-        <span v-if="item.deleteButton" @click="deleteUser(item.id)">
+        <span class="user-list__table__btn" v-if="item.deleteButton" @click="deleteUser(item.id)">
             <font-awesome-icon :icon="['fas', 'trash']" /> 
         </span>
     </template>
@@ -32,6 +32,7 @@ import { Permissions, User } from '../entities/User';
 import { UserService } from '../services/UserService';
 import type { Header, Item } from "vue3-easy-data-table";
 import { getCurrentUser } from '../helpers/Helper';
+import Swal from 'sweetalert2';
 
 const userService = new UserService();
 
@@ -85,11 +86,23 @@ export default defineComponent({
             })
         },
         async deleteUser(id: string){
-            userService.deleteUser(id).then((res) => {
-                if(res.data.data){this.listUsers();} 
-            }).catch((e) => {
-                console.log(e);
-            })
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#243540',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+              }).then((result) => {
+                if (result.isConfirmed) {
+                    userService.deleteUser(id).then((res) => {
+                        if(res.data.data){this.listUsers();} 
+                    }).catch((e) => {
+                        console.log(e);
+                    })
+                }
+              })
         },
 
         formUser(id: number){
@@ -132,4 +145,8 @@ export default defineComponent({
   color: #fafafa;
 }
 
+.user-list__table__btn:hover{
+  cursor: pointer;
+  transform: scale(1.2);
+}
 </style>

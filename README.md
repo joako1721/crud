@@ -9,6 +9,14 @@ Before running the application, make sure you have the following installed:
 - [Node.js](https://nodejs.org/)
 - [Docker](https://www.docker.com/)
 
+## Default credentials
+```json
+{
+  "username": "admin",
+  "password": "admin"
+}
+```
+
 ## Getting Started
 
 ### Clone with https
@@ -59,3 +67,4 @@ npm run dev
 # make sure to have mysql^8.0.26 or higher running
 # configurate backend/.env with the correct database credentials
 ```
+

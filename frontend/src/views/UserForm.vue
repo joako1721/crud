@@ -3,10 +3,7 @@
     <div class="user-form__header">
         <h3>{{ user.id ? (showModify ?'Edit' : 'View') : 'New' }} User</h3> 
         <div class="user-form__header__btn-container">
-            <span class="user-form__header__btn" v-show="showModify || showCreate" @click="saveUser">
-                <font-awesome-icon :icon="['fas', 'floppy-disk']" />
-            </span>
-            <span class="user-form__header__btn" @click="goToUserList">
+            <span class="user-form__header__btn user-form__header__btn--red" @click="goToUserList">
                 <font-awesome-icon :icon="['fas', 'xmark']" />
             </span>
         </div>
@@ -55,7 +52,10 @@
                     </label>
                 </div>
             </div>
-
+        </div>
+        <div class="user-form__save-div" v-show="showModify || showCreate" @click="saveUser">
+            <font-awesome-icon class="user-form__save-div__icon" :icon="['fas', 'floppy-disk']" />
+            <span class="user-form__save-div__label">Save</span>
         </div>
     </div> 
 </template>
@@ -131,6 +131,8 @@ export default defineComponent({
                 title: 'Passwords dont match',})
                 return;
             }
+
+            if(this.permissions.edit && !this.permissions.view) this.permissions.view = true;
 
             this.user.permissions |= (Number(this.permissions.view) << 0)
             this.user.permissions |= (Number(this.permissions.create) << 1)
@@ -219,6 +221,10 @@ export default defineComponent({
   transform: scale(1.2);
 }
 
+.user-form__header__btn--red {
+    color: #cd143c;
+}
+
 .user-form__header__btn-container {
     display: flex;
 }
@@ -237,4 +243,32 @@ export default defineComponent({
 .input-w {
   width: 100%;
 }
+
+
+.user-form__save-btn{
+  margin-top: 2em;
+}
+.user-form__save-div {
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #243540;
+    border-radius: 5px;
+    padding: 0.5em 2em;
+    margin-top: 2em;
+    user-select: none;
+}
+
+.user-form__save-div:hover {
+    cursor: pointer;
+    transform: scale(1.2);
+    transition: transform 0.2s ease-in-out;
+}
+.user-form__save-div__icon {
+    margin-right: 0.5em;
+}
+
+
+
 </style>
