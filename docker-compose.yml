@@ -1,0 +1,47 @@
+version: '3'
+services:
+  database:
+    image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: null
+      MYSQL_PASSWORD: null
+      MYSQL_DATABASE: crud
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+    volumes:
+      - crud-db:/var/lib/mysql
+    ports:
+      - 3306:3306
+    healthcheck:
+        test: ["CMD", "curl", "-f", "http://localhost:3306"]
+        interval: 30s
+        timeout: 10s
+        retries: 5
+  
+  backend:
+    build: ./backend
+    ports:
+      - 3000:3000
+    restart: on-failure
+    environment:
+      DEFAULT_PASSWORD: "admin"
+      SECRET: "JWTSECRET"
+      MYSQL_PASSWORD: null
+      MYSQL_DATABASE: null
+      MYSQL_HOST: database
+      MYSQL_USER: root
+      MYSQL_PORT: 3306
+    depends_on:
+      - database
+    links: 
+        - database
+  frontend:
+    build: ./frontend
+    ports:
+      - 8080:80
+    restart: on-failure
+    
+volumes:
+  crud-db: {}
+
