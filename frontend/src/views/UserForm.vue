@@ -11,19 +11,19 @@
     <div class="user-form">
         <div class="user-form__div">
             <label for="username" class="user-form__label">Username</label>
-            <input class="input input-w" type="text" name="username" v-model="user.username" placeholder="Enter Username">
+            <input class="input input-w" type="text" name="username" v-model="user.username" placeholder="Enter Username" :disabled="showView">
             <label for="password" class="user-form__label">Password</label>
-            <input class="input input-w" type="password" name="password" v-model="user.password" placeholder="Enter Password">
+            <input class="input input-w" type="password" name="password" v-model="user.password" placeholder="Enter Password" :disabled="showView">
             <label for="verifyPassword" class="user-form__label">Verify Password</label>
-            <input class="input input-w" type="password" name="verifyPassword" v-model="verifyPassword" placeholder="Enter Verify Password">
+            <input class="input input-w" type="password" name="verifyPassword" v-model="verifyPassword" placeholder="Enter Verify Password" :disabled="showView">
             <label for="email" class="user-form__label">Email</label>
-            <input class="input input-w" type="text" name="email" v-model="user.email" placeholder="Enter Email">
+            <input class="input input-w" type="text" name="email" v-model="user.email" placeholder="Enter Email" :disabled="showView">
             <label class="user-form__label">Permission</label>
             <div class="user-form__permission-div"> 
                 <div class="user-form__permission-div__container">
                     <label for="viewPermission" class="user-form__label">View</label>
                     <label class="switch">
-                        <input name="viewPermission" type="checkbox" v-model="permissions.view">
+                        <input name="viewPermission" type="checkbox" v-model="permissions.view" :disabled="showView">
                         <span class="slider round"></span>
                     </label>
                 </div>
@@ -31,7 +31,7 @@
                 <div class="user-form__permission-div__container">
                     <label for="editPermission" class="user-form__label">Edit</label>
                     <label class="switch">
-                        <input name="editPermission" type="checkbox" v-model="permissions.edit">
+                        <input name="editPermission" type="checkbox" v-model="permissions.edit" :disabled="showView">
                         <span class="slider round"></span>
                     </label>
                 </div>
@@ -39,7 +39,7 @@
                 <div class="user-form__permission-div__container">
                     <label for="deletePermission" class="user-form__label">Delete</label>
                     <label class="switch">
-                        <input name="deletePermission" type="checkbox" v-model="permissions.delete">
+                        <input name="deletePermission" type="checkbox" v-model="permissions.delete" :disabled="showView">
                         <span class="slider round"></span>
                     </label>
                 </div>
@@ -47,7 +47,7 @@
                 <div class="user-form__permission-div__container">
                     <label for="createPermission" class="user-form__label">Create</label>
                     <label class="switch">
-                        <input name="createPermission" type="checkbox" v-model="permissions.create">
+                        <input name="createPermission" type="checkbox" v-model="permissions.create" :disabled="showView">
                         <span class="slider round"></span>
                     </label>
                 </div>
